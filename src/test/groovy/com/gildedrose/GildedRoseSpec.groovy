@@ -220,4 +220,42 @@ class GildedRoseSpec extends Specification {
         app.items[0].quality == 50
     }
 
+    def "conjured degrades by two when sell-in is positive"() {
+        setup:
+        Item[] items = [new Item("Conjured", 1, 2)] as Item[]
+        def app = new GildedRose(items)
+
+        when:
+        app.updateQuality()
+
+        then:
+        app.items[0].quality == 0
+    }
+
+
+    def "conjured degrades by four once sellIn is zero"() {
+        setup:
+        Item[] items = [new Item("Conjured", 0, 5)] as Item[]
+        GildedRose app = new GildedRose(items)
+
+        when:
+        app.updateQuality()
+
+        then:
+        app.items[0].quality == 1
+    }
+
+
+    def "conjured degrades by four when sellIn is negative"() {
+        setup:
+        Item[] items = [new Item("Conjured", -56, 5)] as Item[]
+        GildedRose app = new GildedRose(items)
+
+        when:
+        app.updateQuality()
+
+        then:
+        app.items[0].quality == 1
+    }
+
 }
